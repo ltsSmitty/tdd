@@ -1,4 +1,4 @@
-import { describe, expect, test, beforeEach } from "bun:test";
+import { describe, expect, test } from "vitest";
 import { Traveler } from "./traveler";
 
 describe("traveler", () => {
@@ -13,5 +13,6 @@ describe("traveler", () => {
 		expect(traveler.getDoorsToVisit(2, length)).toEqual([2, 4, 6, 8, 10]);
 		expect(traveler.getDoorsToVisit(3, length)).toEqual([3, 6, 9]);
 		expect(traveler.getDoorsToVisit(10, length)).toEqual([10]);
+		expect(traveler.getDoorsToVisit(11, 20)).toEqual([11]);
 	});
 });
