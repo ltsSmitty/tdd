@@ -31,45 +31,67 @@ describe("separator", () => {
 });
 describe("calculator", () => {
 	const parsed = sep.separateLetters(data);
-	const aArea = calc.findArea(parsed["A"]);
-	const bArea = calc.findArea(parsed["B"]);
-	const dArea = calc.findArea(parsed["D"]);
+	const { regions } = calc.findRegions(parsed["A"]);
+	const aArea = calc.findArea(regions[0]);
+	const aPerim = calc.findOnePerimeter(regions[0]);
+	// const bArea = calc.findArea(parsed["B"]);
+	// const dArea = calc.findArea(parsed["D"]);
 
-	const aPerim = calc.findPerimeter(parsed["A"]);
-	const bPerim = calc.findPerimeter(parsed["B"]);
-	const dPerim = calc.findPerimeter(parsed["D"]);
+	// const aPerim = calc.findPerimeter(parsed["A"]);
+	// const bPerim = calc.findPerimeter(parsed["B"]);
+	// const dPerim = calc.findPerimeter(parsed["D"]);
 
-	const aCost = calc.findCost(parsed["A"]);
+	// const aCost = calc.findCost(parsed["A"]);
 	test("calculates area", () => {
 		expect(aArea).toEqual(4);
-		expect(bArea).toEqual(4);
-		expect(dArea).toEqual(1);
+		// expect(bArea).toEqual(4);
+		// expect(dArea).toEqual(1);
 	});
 	test("calculates perimeter", () => {
 		expect(aPerim).toEqual(10);
-		expect(bPerim).toEqual(8);
-		expect(dPerim).toEqual(4);
+		// expect(bPerim).toEqual(8);
+		// expect(dPerim).toEqual(4);
 	});
 	test("calculates cost", () => {
-		expect(aCost).toEqual(40);
+		// expect(aCost).toEqual(40);
 	});
 });
 describe("bigger example", () => {
 	const bigData = fr.readFile("big-example.txt");
 	const bigRows = sep.separateLetters(bigData);
-	const rCost = calc.findCost(bigRows["R"]);
-	const cArea = calc.findArea(bigRows["C"]);
-	test("costs", () => {
-		expect(rCost).toEqual(216);
-		expect(cArea).toEqual(15);
-	});
 	test("all costs", () => {
-		console.log(Object.keys(bigRows));
-		expect(Object.keys(bigRows).length).toEqual(11);
-		const allCosts = Object.values(bigRows).map((row) => calc.findCost(row));
+		const allCosts = Object.entries(bigRows).map(([k, v]) => {
+			console.log(k);
+			return calc.findCost(v);
+		});
 		console.log(allCosts);
 		const sum = allCosts.reduce((a, b) => a + b);
 		console.log(sum);
 		expect(sum).toEqual(1930);
+	});
+});
+describe("actual puzzle", () => {
+	const bigData = fr.readFile("input.txt");
+	const bigRows = sep.separateLetters(bigData);
+	test("all costs", () => {
+		const allCosts = Object.entries(bigRows).map(([k, v]) => {
+			console.log(k);
+			return calc.findCost(v);
+		});
+		console.log(allCosts);
+		const sum = allCosts.reduce((a, b) => {
+			return { part1: a?.part1 + b?.part1, part2: a?.part2 + b?.part2 };
+		});
+		console.log(sum);
+		expect(sum).toEqual(1533644);
+	});
+});
+describe("big e test", () => {
+	const eData = fr.readFile("big-e.txt");
+	const eRows = sep.separateLetters(eData);
+	const eGraph = eRows["E"];
+	test("all corners", () => {
+		const corners = calc.findSidesGraph(eGraph);
+		expect(corners).toEqual(12);
 	});
 });

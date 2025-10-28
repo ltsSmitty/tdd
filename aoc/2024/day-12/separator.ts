@@ -3,7 +3,7 @@ export class Separator {
 		const l = new Set<string>();
 		rows.forEach((row) => {
 			row.split("").map((r) => {
-				console.log(`adding ${r}`);
+				// console.log(`adding ${r}`);
 				l.add(r);
 			});
 		});

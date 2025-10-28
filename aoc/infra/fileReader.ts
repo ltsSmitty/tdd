@@ -6,7 +6,6 @@ export function readRelative(callerUrl: string | URL, relativePath: string) {
 	// Turn file: URL -> /absolute/path and use the directory of the caller file
 	const callerDir = path.dirname(fileURLToPath(callerUrl));
 	const abs = path.resolve(callerDir, relativePath);
-	console.log({ callerDir, abs });
 	return fs.readFileSync(abs, "utf8");
 }
 
